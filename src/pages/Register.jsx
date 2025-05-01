@@ -56,7 +56,7 @@ function Register() {
             className="bg-white w-full p-2 rounded-md"
           />
           <input
-            type="email"
+            type="password"
             placeholder="Enter Your Password "
             name="password"
             value={form.password}

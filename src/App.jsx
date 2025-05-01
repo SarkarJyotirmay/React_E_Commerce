@@ -8,6 +8,9 @@ import About from './pages/About'
 import Contact from './pages/Contact'
 import NotFound from './NotFound'
 import SingleProduct from './pages/SingleProduct'
+import AuthProvider from './contexts/AuthProvider'
+import Profile from './pages/Profile'
+import ProtectedRoute from './components/ProtectedRoute'
 
 const router = createBrowserRouter([{
   path: "/",
@@ -33,6 +36,14 @@ const router = createBrowserRouter([{
       element: <Register />
     },
     {
+      path:"profile",
+      element: (
+        <ProtectedRoute>
+          <Profile />
+        </ProtectedRoute>
+      )
+    },
+    {
       path: "/product/:id",
       element: <SingleProduct />
     },
@@ -45,7 +56,9 @@ const router = createBrowserRouter([{
 }])
 function App() {
   return (
-    <RouterProvider router={router}/>
+    <AuthProvider>
+      <RouterProvider router={router}/>
+    </AuthProvider>
   )
 }
 

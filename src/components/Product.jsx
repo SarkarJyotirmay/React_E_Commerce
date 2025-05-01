@@ -1,10 +1,20 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useAuth } from "../contexts/AuthProvider";
 
 function Product({ object }) {
   function trimContent(str) {
     return str.split(" ").slice(0, 10).join(" ") + "...";
   }
+  // console.log(object);
+  // console.log(object.image);
+
+  function handleClick(){
+    console.log("Button Clicked");
+    
+  }
+
+  const { user } = useAuth(); // state of user is logged in or not
   return (
     <>
       <Link to={`/product/${object.id}`}>
@@ -28,10 +38,22 @@ function Product({ object }) {
             <p>{trimContent(object.title)}</p>
           </div>
           <div className="buttons flex gap-6 text-white font-semibold">
-            <button className="border-1 py-1.5 px-2 rounded-lg bg-green-400 hover:bg-rose-500 cursor-pointer ">
+            <button
+            onClick={handleClick}
+            disabled={user === null}
+              className={`border-1 py-1.5 px-2 rounded-lg bg-green-400 hover:bg-rose-500  ${
+                user ? "cursor-pointer" : "cursor-not-allowed"
+              }`}
+            >
               Add To Cart
             </button>
-            <button className="border-1 py-1.5 px-2 rounded-lg bg-blue-400 hover:bg-rose-500 cursor-pointer ">
+            <button
+            onClick={handleClick}
+            disabled={user === null}
+              className={`border-1 py-1.5 px-2 rounded-lg bg-blue-400 hover:bg-rose-500 ${
+                user ? "cursor-pointer" : "cursor-not-allowed"
+              }`}
+            >
               Add To WishList
             </button>
           </div>

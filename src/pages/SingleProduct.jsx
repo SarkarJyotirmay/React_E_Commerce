@@ -12,7 +12,7 @@ function SingleProduct() {
   async function getSingleProductData(id) {
     const result = await instance.get(`/products/${id}`);
     setSingleData(result.data.product);
-    console.log(result.data.product);
+    // console.log(result.data.product);
   }
 
   function trimContent(str) {
