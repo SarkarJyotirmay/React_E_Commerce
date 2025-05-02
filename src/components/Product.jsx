@@ -1,20 +1,28 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../contexts/AuthProvider";
+import { useCart } from "../contexts/CartProvider";
 
 function Product({ object }) {
+  //
+  const {cart, handleAddCart, handleAddWishList } = useCart();
+
+  //
   function trimContent(str) {
     return str.split(" ").slice(0, 10).join(" ") + "...";
   }
   // console.log(object);
   // console.log(object.image);
 
-  function handleClick(){
-    console.log("Button Clicked");
-    
-  }
-
+  //
   const { user } = useAuth(); // state of user is logged in or not
+
+  //! Unexpected while catering length or adding same item to cart twice  
+  useEffect(()=>{
+    console.log(cart.length);
+  },[])
+
+  //
   return (
     <>
       <Link to={`/product/${object.id}`}>
@@ -39,8 +47,8 @@ function Product({ object }) {
           </div>
           <div className="buttons flex gap-6 text-white font-semibold">
             <button
-            onClick={handleClick}
-            disabled={user === null}
+              onClick={(e) => handleAddCart(e, object)} //object = API->productDetailObj
+              disabled={user === null}
               className={`border-1 py-1.5 px-2 rounded-lg bg-green-400 hover:bg-rose-500  ${
                 user ? "cursor-pointer" : "cursor-not-allowed"
               }`}
@@ -48,8 +56,8 @@ function Product({ object }) {
               Add To Cart
             </button>
             <button
-            onClick={handleClick}
-            disabled={user === null}
+              onClick={(e) => handleAddWishList(e)}
+              disabled={user === null}
               className={`border-1 py-1.5 px-2 rounded-lg bg-blue-400 hover:bg-rose-500 ${
                 user ? "cursor-pointer" : "cursor-not-allowed"
               }`}

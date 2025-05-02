@@ -11,6 +11,10 @@ import SingleProduct from './pages/SingleProduct'
 import AuthProvider from './contexts/AuthProvider'
 import Profile from './pages/Profile'
 import ProtectedRoute from './components/ProtectedRoute'
+import CartProvider from './contexts/CartProvider'
+import Cart from './pages/Cart'
+import Wishlist from './Wishlist'
+import ProfileProvider from './contexts/ProfileProvider'
 
 const router = createBrowserRouter([{
   path: "/",
@@ -39,13 +43,31 @@ const router = createBrowserRouter([{
       path:"profile",
       element: (
         <ProtectedRoute>
+          <ProfileProvider>
           <Profile />
+          </ProfileProvider>
         </ProtectedRoute>
       )
     },
     {
       path: "/product/:id",
       element: <SingleProduct />
+    },
+    {
+      path: "/cart",
+      element: (
+        <ProtectedRoute>
+          <Cart />
+        </ProtectedRoute>
+      )
+    },
+    {
+      path: "/wishlist",
+      element: (
+        <ProtectedRoute>
+          <Wishlist />
+        </ProtectedRoute>
+      )
     },
     {
       path: "*",
@@ -57,7 +79,9 @@ const router = createBrowserRouter([{
 function App() {
   return (
     <AuthProvider>
+      <CartProvider>
       <RouterProvider router={router}/>
+      </CartProvider>
     </AuthProvider>
   )
 }

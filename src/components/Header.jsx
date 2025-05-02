@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 // icons
@@ -9,6 +9,7 @@ import { useAuth } from "../contexts/AuthProvider";
 import { getAuth } from "firebase/auth";
 import app from "../pages/firebase";
 import Profile from "../pages/Profile";
+import { useCart } from "../contexts/CartProvider";
 
 const auth = getAuth(app);
 
@@ -16,20 +17,25 @@ function Header() {
   const { user, setUser } = useAuth(); // will have an object of user is logged in else null
   const navigate = useNavigate();
 
-  const [route, setRoute] = useState("")
+  const [route, setRoute] = useState("");
 
+  const { cart } = useCart();
+// 
   function handleLogOut() {
     auth.signOut();
     navigate("/");
   }
-
+// 
   function handleRoutChange() {
     navigate(`/${route}`);
   }
-
-  useEffect(()=>{
-    handleRoutChange()
-  },[route])
+// 
+  useEffect(() => {
+    handleRoutChange();
+  }, [route]);
+  // 
+  console.log(cart);
+  
 
   return (
     <header className="bg-rose-500 py-5 px-8 text-white flex justify-between">
@@ -54,7 +60,7 @@ function Header() {
             <MdOutlineShoppingCart />
           </Link>
           <span className="count absolute w-[1.1rem] h-[1.1rem] rounded-full bg-gray-200 -top-3 -right-3.5 text-sm flex justify-center items-center text-black">
-            0
+            {cart.length}
           </span>
         </li>
         <li className="text-xl relative hover:text-blue-600">
@@ -76,12 +82,8 @@ function Header() {
               onChange={(e) => setRoute(e.target.value)}
             >
               <option value="">Select</option>
-              <option value="login" >
-                login
-              </option>
-              <option value="profile">
-                Profile
-              </option>
+              <option value="login">login</option>
+              <option value="profile">Profile</option>
             </select>
           )}
         </li>
